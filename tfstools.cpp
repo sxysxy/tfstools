@@ -99,10 +99,7 @@ uint64 write_lba_stdio(uint64 start, uint64 end, void *buf) {
 
 }
 
-FSIO g_io = {
-    .read_lba = read_lba_stdio,
-    .write_lba = write_lba_stdio, 
-};
+FSIO g_io = { read_lba_stdio, write_lba_stdio };
 
 static const char *help_msg = STR(
 Taurix Filesystem Tools\n
@@ -582,7 +579,7 @@ int main(int argc, char *argv[]) {
                         return true;
                     } else return false; 
                 } else {
-                    printf("Unknown filesystem (%s)\n");
+                    printf("Unknown filesystem (%s)\n", fs.c_str());
                     return false;
                 }
             }
