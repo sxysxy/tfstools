@@ -1,0 +1,38 @@
+#新建大小为50mb的带有GPT分区表的磁盘
+new test.img 50
+#打开刚才创建的test.img
+open test.img
+#分区
+#新建分区，EFI
+new_part_start
+    type_guid C12A7328-F81F-11D2-BA4B-00A0C93EC93B
+    guid random
+    start_lba 2048 
+    end_lba 32000
+    label EFI System Partition
+    attribute 4
+new_part_end
+#新建分区，数据
+new_part_start
+    type_guid EBD0A0A2-B9E5-4433-87C0-68B6B72699C7
+    guid random
+    start_lba 32001
+    end_lba 100000
+    label Main Partition
+    attribute 4
+new_part_end
+#同步修改到磁盘
+sync
+#文件系统
+#选择第二个分区（index=1, select的参数也可以是GUID）
+select 1
+#文件系统
+#格式化分区为FAT32文件系统
+makefs FAT32
+#执行test...
+enter_part FAT32
+
+#退出
+close
+exit 0
+
